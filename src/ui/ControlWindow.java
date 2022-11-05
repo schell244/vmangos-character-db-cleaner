@@ -87,7 +87,11 @@ public class ControlWindow {
         });
     }
 
-    public void showResultText(String result){
-        outputText.setText(result);
+    public void appendResultText(String text){
+        outputText.append(text);
+    }
+
+    public void clearResultText(){
+        outputText.setText("");
     }
 }

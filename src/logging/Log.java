@@ -2,17 +2,15 @@ package logging;
 
 public class Log {
 
-    private static final StringBuffer sb = new StringBuffer();
-    public static void print(String message) {
-        System.out.println(message);
-        sb.append(message);
-        sb.append("\n");
+    private static IPrintListener iPrintListener;
+
+    public static void addPrintListener(IPrintListener listener){
+        iPrintListener = listener;
     }
 
-    public static String getLogs(){
-        String result = sb.toString();
-        // clear sb
-        sb.delete(0, sb.length());
-        return result;
+    public static void print(String text) {
+        // System.out.println(message);
+        iPrintListener.print(text);
+        iPrintListener.print("\n");
     }
 }

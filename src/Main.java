@@ -10,17 +10,17 @@ public class Main {
 
     public static void main(String[] args) {
         ControlWindow controlWindow = new ControlWindow();
+        Log.addPrintListener(controlWindow::appendResultText);
         IRunListener listener = (user, pass, location) -> {
             try {
-                controlWindow.showResultText("");
+                controlWindow.clearResultText();
                 Connection connection = DriverManager.getConnection(location, user, pass);
                 DatabaseCleaner databaseCleaner = new DatabaseCleaner(connection);
                 databaseCleaner.sortItemGuids();
-                controlWindow.showResultText(Log.getLogs());
                 connection.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                controlWindow.showResultText("Error: \n" + e.getMessage());
+                controlWindow.appendResultText("Error: \n" + e.getMessage());
             }
         };
         controlWindow.addListener(listener);
