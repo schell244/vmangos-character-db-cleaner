@@ -1,0 +1,12 @@
+# IDE files
+.idea
+*.iml 
+out/*
+
+# Build artifacts
+build/
+*.class
+*.jar
+
+# Generated files
+MANIFEST.MF
