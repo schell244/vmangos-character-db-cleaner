@@ -8,5 +8,9 @@ build/
 *.class
 *.jar
 
+# Allow JARs in lib folder
+!lib/
+!lib/*.jar
+
 # Generated files
 MANIFEST.MF
