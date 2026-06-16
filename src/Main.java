@@ -9,6 +9,14 @@ import java.sql.DriverManager;
 
 public class Main {
 
+    private static String formatDuration(long millis) {
+        return String.format("%02d:%02d:%02d.%03d (hh:mm:ss.SSS)",
+                millis / (1000 * 60 * 60),
+                (millis / (1000 * 60)) % 60,
+                (millis / 1000) % 60,
+                millis % 1000);
+    }
+
     public static void main(String[] args) {
         ControlWindow controlWindow = new ControlWindow();
         Log.addPrintListener(controlWindow::appendResultText);
@@ -20,24 +28,19 @@ public class Main {
                     controlWindow.setRunButtonEnabled(false);
                     Log.print("Connecting to database: " + location);
 
-                    Connection connection = DriverManager.getConnection(location, user, pass);
-                    Log.print("Success!");
-
-                    long startTime = System.currentTimeMillis();
-
-                    DatabaseCleaner databaseCleaner = new DatabaseCleaner(connection);
-                    databaseCleaner.sortItemGuids();
-                    connection.close();
-
-                    long endTime = System.currentTimeMillis();
-                    long durationMillis = endTime - startTime;
-                    long milliseconds = durationMillis % 1000;
-                    long seconds = (durationMillis / 1000) % 60;
-                    long minutes = (durationMillis / (1000 * 60)) % 60;
-                    long hours   = (durationMillis / (1000 * 60 * 60));
-                    Log.printLine();
-                    Log.print("Finished.");
-                    Log.print(String.format("Duration: %02d:%02d:%02d.%03d (hh:mm:ss.SSS)", hours, minutes, seconds, milliseconds));
+                    try (Connection connection = DriverManager.getConnection(location, user, pass)) {
+                        Log.print("Connected.");
+                        long startTime = System.currentTimeMillis();
+                        try {
+                            new DatabaseCleaner(connection).run();
+                            Log.printLine();
+                            Log.print("Finished. Duration: " + formatDuration(System.currentTimeMillis() - startTime));
+                        } catch (Exception e) {
+                            Log.printLine();
+                            Log.print("Failed after " + formatDuration(System.currentTimeMillis() - startTime));
+                            throw e;
+                        }
+                    }
 
                     return null;
                 }
@@ -48,8 +51,9 @@ public class Main {
                     try {
                         get();
                     } catch (Exception e) {
-                        e.printStackTrace();
-                        controlWindow.appendResultText("Error: \n" + e.getMessage());
+                        Throwable cause = e.getCause() != null ? e.getCause() : e;
+                        cause.printStackTrace();
+                        controlWindow.appendResultText("Error: \n" + cause.getMessage());
                     }
                 }
             };

@@ -6,6 +6,8 @@ Affected tables:
 character_inventory
 mail_items
 item_instance
+auction
+character_gifts
 ```
 Each run also clears out tables related to last world sessions.
 Affected tables:

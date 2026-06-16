@@ -12,8 +12,8 @@ public class ControlWindow {
     private static final String HOST     = "127.0.0.1";
     private static final String PORT     = "3306";
     private static final String DATABASE = "characters";
-    private final JTextField userInput;
-    private final JTextField passInput;
+    private final JTextField      userInput;
+    private final JPasswordField  passInput;
     private final JTextField hostInput;
     private final JTextField portInput;
     private final JTextField databaseInput;
@@ -22,7 +22,7 @@ public class ControlWindow {
 
     public ControlWindow(){
         userInput = new JTextField(USERNAME);
-        passInput = new JTextField(PASSWORD);
+        passInput = new JPasswordField(PASSWORD);
         hostInput = new JTextField(HOST);
         portInput = new JTextField(PORT);
         databaseInput = new JTextField(DATABASE);
@@ -143,12 +143,12 @@ public class ControlWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String user = userInput.getText();
-                String pass = passInput.getText();
+                String pass = new String(passInput.getPassword());
                 String host = hostInput.getText();
-                String port = portInput.getText();
+                String port     = portInput.getText();
                 String database = databaseInput.getText();
                 String location = String.format("jdbc:mysql://%s:%s/%s", host, port, database);
-                listener.run(user,pass,location);
+                listener.run(user, pass, location);
             }
         });
     }

@@ -24,4 +24,14 @@ public class VMangosDB {
         public static final String TABLE_NAME = "item_instance";
         public static final String GUID       = "guid";
     }
+
+    public static class auction {
+        public static final String TABLE_NAME = "auction";
+        public static final String ITEM_GUID  = "item_guid";
+    }
+
+    public static class character_gifts {
+        public static final String TABLE_NAME = "character_gifts";
+        public static final String ITEM_GUID  = "item_guid";
+    }
 }

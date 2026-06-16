@@ -18,11 +18,4 @@ public class MailItem {
         return ownerGuid;
     }
 
-    public void setItemGuid(int itemGuid) {
-        this.itemGuid = itemGuid;
-    }
-
-    public void setOwnerGuid(int ownerGuid) {
-        this.ownerGuid = ownerGuid;
-    }
 }

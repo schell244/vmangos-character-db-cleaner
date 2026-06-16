@@ -27,15 +27,4 @@ public class Item {
         return itemGuid;
     }
 
-    public void setCharacterGuid(int characterGuid) {
-        this.characterGuid = characterGuid;
-    }
-
-    public void setBagGuid(int bagGuid) {
-        this.bagGuid = bagGuid;
-    }
-
-    public void setItemGuid(int itemGuid) {
-        this.itemGuid = itemGuid;
-    }
 }
